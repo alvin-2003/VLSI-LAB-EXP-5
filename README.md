@@ -26,16 +26,82 @@ Logic Diagram :
 
 ![image](https://github.com/navaneethans/VLSI-LAB-EXP-5/assets/6987778/34ec5d63-2b3b-4511-81ef-99f4572d5869)
 
+# VERILOG CODE:
+# finite state machine
+```
 
-VERILOG CODE:
+module FSM_moore(clk, rst, x, z);
 
-----Type Verilog Code
+input clk, rst, x;
 
-OUTPUT:
+output z;
 
------Place a Waveform Generated from Xilinx ISE------------
+reg [2:1] present_state, NEXT_STATE;
 
-RESULT:
+parameter S0=2'b00, S1=2'b01, S2=2'b10, S3=2'b11;
 
+// define the next state combinational circuit
+
+always@(x,present_state)
+
+case(present_state)
+
+S0: if(x)
+
+NEXT_STATE=S1;
+
+else
+
+NEXT_STATE=S0;
+
+S1: if(x)
+
+NEXT_STATE=S1;
+
+else
+
+NEXT_STATE=S2;
+
+S2: if(x)
+
+NEXT_STATE=S3;
+
+else
+
+NEXT_STATE=S0;
+
+S3: if(x)
+
+NEXT_STATE=S1;
+
+else
+
+NEXT_STATE=S2;
+
+endcase
+
+//define the sequential block
+
+always@(negedge rst, posedge clk)
+
+if(rst)
+
+present_state<=S0;
+
+else
+
+present_state<=NEXT_STATE;
+
+assign z=(present_state==S3); // define output
+
+endmodule
+```
+
+# OUTPUT:
+![329682824-071890dd-3153-4bf7-8ff9-ba142527c4c2](https://github.com/alvin-2003/VLSI-LAB-EXP-5/assets/163816866/d6f92bb4-9c4f-4271-b669-62aa306160f9)
+
+
+# RESULT:
+Thus the simulation and synthesis of finite state machine using vivado 2023.2 was successfully executed and verified
 
 
